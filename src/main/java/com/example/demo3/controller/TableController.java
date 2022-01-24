@@ -14,9 +14,10 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class TableController extends HttpServlet {
-
     private List<Table> lst = new LinkedList<>();
     private static Random random = new Random();
+
+    private Gson gson = new Gson();
 
 
     @Override
@@ -31,7 +32,18 @@ public class TableController extends HttpServlet {
 
         }
 
-        resp.getWriter().println(new Gson().toJson(lst));
+        resp.getWriter().println(gson.toJson(lst));
+
+
+        // USHADRUTYUN HIMA CHDARCNEL
+//            switch (key){
+//            case"byId":
+//                getAll();
+//                break;
+//            case "all":
+//                getById();
+//                break;
+//        }
 
 
     }
@@ -49,16 +61,39 @@ public class TableController extends HttpServlet {
 //
         Table data = new Table(id, number, seats, busy);
         lst.add(data);
-        System.out.println(lst);
 
-        resp.getWriter().println(lst);
-
-
+        resp.getWriter().println(gson.toJson(lst));
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.getWriter().println("this is PUT method in general");
+
+        Table t = null;
+        int id = Integer.parseInt(req.getParameter("id"));
+
+        for (int i = 0; i < lst.size(); i++) {
+            if (lst.get(i).getId() == id) {
+                t = lst.get(i);
+                break;
+            }
+        }
+
+        if (t == null) {
+            resp.sendError(400, "hargelis, senc sxalner mekel chanes");
+            return;
+        }
+
+        int number = Integer.parseInt(req.getParameter("number"));
+        int seats = Integer.parseInt(req.getParameter("seats"));
+        boolean busy = Boolean.parseBoolean(req.getParameter("busy"));
+
+        t.setBusy(busy);
+        t.setNumber(number);
+        t.setSeats(seats);
+
+
+        resp.getWriter().println(gson.toJson(lst));
     }
 
     @Override
@@ -70,9 +105,7 @@ public class TableController extends HttpServlet {
 
         lst.removeAll(collect);
 
-        resp.getWriter().println(lst);
+        resp.getWriter().println(gson.toJson(lst));
 
     }
-
-
 }
