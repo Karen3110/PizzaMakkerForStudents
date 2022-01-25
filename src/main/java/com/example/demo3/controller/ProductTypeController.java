@@ -1,8 +1,8 @@
 package com.example.demo3.controller;
 
-import com.example.demo3.model.Table;
-import com.example.demo3.service.TableService;
-import com.example.demo3.service.impl.TableServiceImpl;
+import com.example.demo3.model.ProductType;
+import com.example.demo3.service.ProductTypeService;
+import com.example.demo3.service.impl.ProductTypeServiceImpl;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -13,26 +13,27 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TableController extends HttpServlet {
-    private final TableService tableService = new TableServiceImpl();
+public class ProductTypeController extends HttpServlet {
+    private final ProductTypeService productTypeService = new ProductTypeServiceImpl();
     private final Gson gson = new Gson();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Table> data = new LinkedList<>();
+
+        List<ProductType> data = new LinkedList<>();
         final String url = req.getParameter("url");
 
         switch (url) {
             case "get-all":
-                data = tableService.readAll();
+                data = productTypeService.readAll();
                 break;
             case "get-by-id":
                 int id = Integer.parseInt(req.getParameter("id"));
-                data.add(tableService.read(id));
+                data.add(productTypeService.read(id));
                 break;
-            case "get-by-busy":
-                boolean isBusy = Boolean.parseBoolean(req.getParameter("is-busy"));
-                data = tableService.readByBusy(isBusy);
+            case "get-by-name":
+                String name = req.getParameter("name");
+                data.add(productTypeService.read(name));
                 break;
             default:
                 resp.sendError(404, "provided URL not found for analyse");

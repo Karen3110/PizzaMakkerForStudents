@@ -1,15 +1,10 @@
 package com.example.demo3.A_OOP_CONCEPT.OOP_CLASS;
 
 public class Car {
-    public static void saySomething() {
-        System.out.println("something I said: Car");
-    }
-
-    int year;
     public int maxSpeed;
     protected String model;
+    int year;
     private boolean light;
-
     public Car() {
 //        System.out.println("car constructor");
     }
@@ -19,6 +14,10 @@ public class Car {
         this.model = model;
         this.year = year;
         this.light = light;
+    }
+
+    public static void saySomething() {
+        System.out.println("something I said: Car");
     }
 
     public void start() {

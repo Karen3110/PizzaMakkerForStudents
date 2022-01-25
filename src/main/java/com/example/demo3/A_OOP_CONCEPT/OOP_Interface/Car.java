@@ -1,7 +1,7 @@
 package com.example.demo3.A_OOP_CONCEPT.OOP_Interface;
 
 public interface Car {
-// as final variable
+    // as final variable
     int value = 12;
 
     void startEngine();

@@ -1,6 +1,6 @@
 package com.example.demo3.A_OOP_CONCEPT.OOP_Interface;
 
-public class GClass extends Mercedes  {
+public class GClass extends Mercedes {
 
     public GClass(boolean lightIsOn, int value) {
         super(lightIsOn, value);
