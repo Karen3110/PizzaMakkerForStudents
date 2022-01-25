@@ -17,7 +17,9 @@ public class TableController extends HttpServlet {
     private final TableService tableService = new TableServiceImpl();
     private final Gson gson = new Gson();
 
+
     @Override
+
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Table> data = new LinkedList<>();
         final String url = req.getParameter("url");
@@ -56,4 +58,6 @@ public class TableController extends HttpServlet {
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp);
     }
+
+
 }

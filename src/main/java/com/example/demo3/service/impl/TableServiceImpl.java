@@ -18,17 +18,15 @@ public class TableServiceImpl implements TableService {
 
     @Override
     public List<Table> readAll() {
-        // this is our business logic
         return tableRepository.readAll();
     }
 
     @Override
     public List<Table> readByBusy(boolean isBusy) {
-        return
-                readAll().
-                        stream().
-                        filter(item -> item.isBusy() == isBusy).
-                        collect(Collectors.toList());
+        return readAll().
+                stream().
+                filter(item -> item.isBusy() == isBusy).
+                collect(Collectors.toList());
     }
 
     @Override
