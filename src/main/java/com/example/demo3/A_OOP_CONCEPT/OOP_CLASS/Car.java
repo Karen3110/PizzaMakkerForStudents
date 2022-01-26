@@ -5,6 +5,7 @@ public class Car {
     protected String model;
     int year;
     private boolean light;
+
     public Car() {
 //        System.out.println("car constructor");
     }

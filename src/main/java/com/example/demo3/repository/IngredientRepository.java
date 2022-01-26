@@ -2,13 +2,9 @@ package com.example.demo3.repository;
 
 import com.example.demo3.model.Ingredient;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.util.List;
 
 public class IngredientRepository {
-
 
 
     public Ingredient read(int id) {

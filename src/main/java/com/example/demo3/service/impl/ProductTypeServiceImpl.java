@@ -1,14 +1,13 @@
 package com.example.demo3.service.impl;
 
 import com.example.demo3.model.ProductType;
-import com.example.demo3.repository.ProductRepository;
 import com.example.demo3.repository.ProductTypeRepository;
 import com.example.demo3.service.ProductTypeService;
 
 import java.util.List;
 
 public class ProductTypeServiceImpl implements ProductTypeService {
-private final ProductTypeRepository productTypeRepository = new ProductTypeRepository();
+    private final ProductTypeRepository productTypeRepository = new ProductTypeRepository();
 
     @Override
     public ProductType read(int id) {

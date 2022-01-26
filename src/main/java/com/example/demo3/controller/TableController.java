@@ -18,8 +18,10 @@ public class TableController extends HttpServlet {
     private final Gson gson = new Gson();
 
 
+    /**
+     * * this method is getting parameters from request with name (url) and with switch case and maps request for concrete case
+     */
     @Override
-
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Table> data = new LinkedList<>();
         final String url = req.getParameter("url");
@@ -30,11 +32,18 @@ public class TableController extends HttpServlet {
                 break;
             case "get-by-id":
                 int id = Integer.parseInt(req.getParameter("id"));
-                data.add(tableService.read(id));
+                Table read = tableService.read(id);
+                if (read != null) {
+                    data.add(read);
+                }
                 break;
             case "get-by-busy":
                 boolean isBusy = Boolean.parseBoolean(req.getParameter("is-busy"));
                 data = tableService.readByBusy(isBusy);
+                break;
+            case "get-by-seat":
+                int seats = Integer.parseInt(req.getParameter("seats"));
+                data = tableService.readBySeatCount(seats);
                 break;
             default:
                 resp.sendError(404, "provided URL not found for analyse");
@@ -46,17 +55,52 @@ public class TableController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        Table table = mapper(req);
+        tableService.create(table);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        Table table = mapper(req);
+        int id = table.getId();
+        resp.
+                getWriter().
+                println(gson.toJson(tableService.update(id, table)));
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        int id = Integer.parseInt(req.getParameter("id"));
+        tableService.delete(id);
+
+    }
+
+
+    private Table mapper(HttpServletRequest req) {
+        int id;
+        int number;
+        int seats;
+        boolean isBusy;
+
+        try {
+            id = Integer.parseInt(req.getParameter("id"));
+        } catch (NumberFormatException ex) {
+            id = 0;
+        }
+        try {
+            number = Integer.parseInt(req.getParameter("number"));
+        } catch (NumberFormatException ex) {
+            number = 0;
+        }
+        try {
+            seats = Integer.parseInt(req.getParameter("seats"));
+        } catch (NumberFormatException ex) {
+            seats = 0;
+        }
+        isBusy = Boolean.parseBoolean(req.getParameter("is-busy"));
+
+        Table table = new Table(id, number, seats, isBusy);
+        return table;
     }
 
 

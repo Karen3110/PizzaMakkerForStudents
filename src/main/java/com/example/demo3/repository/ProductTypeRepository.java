@@ -36,6 +36,6 @@ public class ProductTypeRepository {
     }
 
     public ProductType read(String name) {
-        return new ProductType(23,name);
+        return new ProductType(23, name);
     }
 }

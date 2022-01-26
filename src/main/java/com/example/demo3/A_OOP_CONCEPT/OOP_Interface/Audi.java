@@ -2,8 +2,8 @@ package com.example.demo3.A_OOP_CONCEPT.OOP_Interface;
 
 public class Audi implements Car, Beep {
 
-    private boolean lightIsOn;
     private final int value;
+    private boolean lightIsOn;
 
     public Audi(boolean lightIsOn, int value) {
         this.lightIsOn = lightIsOn;

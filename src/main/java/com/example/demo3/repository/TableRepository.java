@@ -13,6 +13,32 @@ import java.util.List;
 public class TableRepository {
 
 
+    private static List<Table> mapperList(ResultSet resultSet) {
+        List<Table> data = new LinkedList<>();
+        try {
+            while (resultSet.next()) {
+                data.add(mapper(resultSet));
+            }
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return data;
+    }
+
+    private static Table mapper(ResultSet resultSet) {
+        Table t = new Table();
+        try {
+            t.setId(resultSet.getInt("id"));
+            t.setNumber(resultSet.getInt("number"));
+            t.setSeats(resultSet.getInt("seats"));
+            t.setBusy(resultSet.getBoolean("is_busy"));
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        return t;
+    }
+
     public Table read(int id) {
 
         Connection connection = SQLConnector.getConnection();
@@ -74,42 +100,69 @@ public class TableRepository {
     }
 
     public void create(Table table) {
+        Connection connection = SQLConnector.getConnection();
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO `table` values (0,?,?,?)");
+            preparedStatement.setInt(1, table.getNumber());
+            preparedStatement.setInt(2, table.getSeats());
+            preparedStatement.setBoolean(3, table.isBusy());
+
+            int i = preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            connection.close();
+
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
 
     }
 
     public Table update(int id, Table table) {
-        return null;
+
+
+        Connection connection = SQLConnector.getConnection();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE `table` SET number = ?, seats = ?, is_busy=? WHERE id = ?");
+            preparedStatement.setInt(1, table.getNumber());
+            preparedStatement.setInt(2, table.getSeats());
+            preparedStatement.setBoolean(3, table.isBusy());
+            preparedStatement.setInt(4, table.getId());
+
+            int i = preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
+        try {
+            connection.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+        }
+
+        return table;
     }
 
     public void delete(int id) {
 
-    }
-
-
-    private static List<Table> mapperList(ResultSet resultSet) {
-        List<Table> data = new LinkedList<>();
+        Connection connection = SQLConnector.getConnection();
         try {
-            while (resultSet.next()) {
-                data.add(mapper(resultSet));
-            }
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
-        }
-        return data;
-    }
+            PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM `table` where id=?");
+            preparedStatement.setInt(1, id);
+            int i = preparedStatement.executeUpdate();
 
-    private static Table mapper(ResultSet resultSet) {
-        Table t = new Table();
-        try {
-            t.setId(resultSet.getInt("id"));
-            t.setNumber(resultSet.getInt("number"));
-            t.setSeats(resultSet.getInt("seats"));
-            t.setBusy(resultSet.getBoolean("is_busy"));
-
-        } catch (SQLException sqlException) {
-            sqlException.printStackTrace();
+            preparedStatement.close();
+            connection.close();
+        } catch (SQLException exception) {
+            exception.printStackTrace();
         }
-        return t;
+
     }
 
 
