@@ -1,13 +1,15 @@
 package com.example.demo3;
 
-import com.example.demo3.repository.TableRepository;
+import com.example.demo3.repository.ProductRepository;
+import com.google.gson.Gson;
 
 public class Main {
 
     public static void main(String[] args) {
-        TableRepository tableRepository = new TableRepository();
 
-        System.out.println(tableRepository.readAll());
+        ProductRepository productRepository = new ProductRepository();
+        Gson g = new Gson();
+        System.out.println(g.toJson(productRepository.read(1)));
 
     }
 

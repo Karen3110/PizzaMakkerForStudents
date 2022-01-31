@@ -16,5 +16,17 @@
         <servlet-name>tableController</servlet-name>
         <url-pattern>/table</url-pattern>
     </servlet-mapping>
+    
+    
+    
+    <servlet>
+        <servlet-name>productController</servlet-name>
+        <servlet-class>com.example.demo3.controller.ProductController</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>productController</servlet-name>
+        <url-pattern>/product</url-pattern>
+    </servlet-mapping>
 
 </web-app>

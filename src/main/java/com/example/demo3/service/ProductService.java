@@ -1,21 +1,20 @@
 package com.example.demo3.service;
 
 import com.example.demo3.model.Table;
+import com.example.demo3.model.dto.ProductDto;
 
 import java.util.List;
 
 public interface ProductService {
 
 
-    Table read(int id);
+    ProductDto read(int id);
 
-    List<Table> readAll();
+    List<ProductDto> readAll();
 
-    List<Table> readByBusy(boolean isBusy);
+    List<ProductDto> readAllByProductType(int productTypeId);
 
-    List<Table> readBySeatCount(int seatCount);
-
-    void create(Table table);
+    void create();
 
     Table update(int id, Table table);
 
