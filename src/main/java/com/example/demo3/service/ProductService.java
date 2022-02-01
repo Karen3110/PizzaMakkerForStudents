@@ -1,6 +1,6 @@
 package com.example.demo3.service;
 
-import com.example.demo3.model.Table;
+import com.example.demo3.model.Product;
 import com.example.demo3.model.dto.ProductDto;
 
 import java.util.List;
@@ -16,7 +16,8 @@ public interface ProductService {
 
     void create();
 
-    Table update(int id, Table table);
+
+    ProductDto update(int id, ProductDto productDto);
 
     void delete(int id);
 

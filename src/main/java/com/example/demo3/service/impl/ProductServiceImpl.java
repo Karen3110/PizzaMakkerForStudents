@@ -1,16 +1,20 @@
 package com.example.demo3.service.impl;
 
 import com.example.demo3.model.Ingredient;
-import com.example.demo3.model.Table;
+import com.example.demo3.model.Product;
+import com.example.demo3.model.commons.ProductToIngredient;
 import com.example.demo3.model.dto.ProductDto;
 import com.example.demo3.repository.ProductRepository;
+import com.example.demo3.repository.ProductToIngredientRepository;
 import com.example.demo3.service.ProductService;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ProductServiceImpl implements ProductService {
     ProductRepository productRepository = new ProductRepository();
+    ProductToIngredientRepository productToIngredientRepository = new ProductToIngredientRepository();
 
 
     @Override
@@ -36,13 +40,41 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> readAll() {
-        return null;
+
+        List<ProductDto> fromDb = productRepository.readAll();
+        List<ProductDto> data = new LinkedList<>();
+        fromDb.forEach(item -> {
+            int i = 0;
+            for (; i < data.size(); i++) {
+                if (data.get(i).getId() == item.getId()) {
+                    break;
+                }
+            }
+            if (i != data.size()) {
+                data.get(i).getIngredients().add(new Ingredient(item.getIngredientId(), item.getIngredientName()));
+            } else {
+                ProductDto productDto = new ProductDto();
+                productDto.setId(item.getId());
+                productDto.setProductTypeId(item.getProductTypeId());
+                productDto.setName(item.getName());
+                productDto.setPrice(item.getPrice());
+                productDto.setImagePath(item.getImagePath());
+                productDto.setCurrency(item.getCurrency());
+                productDto.setIngredients(new LinkedList<>());
+                productDto.getIngredients().add(new Ingredient(item.getIngredientId(), item.getIngredientName()));
+                data.add(productDto);
+            }
+            item.setId(-1);
+
+        });
+
+
+        return data;
     }
 
     @Override
     public List<ProductDto> readAllByProductType(int productTypeId) {
-
-        return null;
+        return readAll().stream().filter(item -> item.getProductTypeId() == productTypeId).collect(Collectors.toList());
     }
 
     @Override
@@ -52,12 +84,31 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public Table update(int id, Table table) {
-        return null;
+    public ProductDto update(int id, ProductDto productDto) {
+        if (productRepository.read(id) != null) {
+            Product p = new Product();
+            p.setId(productDto.getId());
+            p.setProductTypeId(productDto.getProductTypeId());
+            p.setName(productDto.getName());
+            p.setPrice(productDto.getPrice());
+            p.setImagePath(productDto.getImagePath());
+            p.setCurrency(productDto.getCurrency());
+            productRepository.update(p);
+        }
+
+        if (productToIngredientRepository.readByProduct(id) != null) {
+            List<Ingredient> ingredients = productDto.getIngredients();
+            ingredients.forEach(item -> {
+                ProductToIngredient productToIngredient = new ProductToIngredient(0, item.getId(), productDto.getId());
+                productToIngredientRepository.update(productToIngredient);
+            });
+        }
+        return productDto;
     }
 
     @Override
     public void delete(int id) {
-
+        productRepository.delete(id);
+        productToIngredientRepository.deleteByProduct(id);
     }
 }

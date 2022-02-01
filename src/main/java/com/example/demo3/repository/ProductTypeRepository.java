@@ -7,8 +7,6 @@ import java.util.List;
 
 public class ProductTypeRepository {
 
-    // mocked data is generated
-
     public ProductType read(int id) {
         return new ProductType(id, "random Name for test");
     }

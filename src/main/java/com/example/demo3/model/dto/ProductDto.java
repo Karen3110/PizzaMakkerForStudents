@@ -3,7 +3,6 @@ package com.example.demo3.model.dto;
 import com.example.demo3.model.Ingredient;
 import lombok.*;
 
-import java.util.LinkedList;
 import java.util.List;
 
 @Getter
@@ -14,14 +13,22 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductDto {
     private int id;
+
     private transient int ingredientId;
+
     private int productTypeId;
+
     private float price;
+
     private String name;
+
     private transient String ingredientName;
+
     private String imagePath;
+
     private String currency;
 
-    List<Ingredient> ingredients ;
+    private List<Ingredient> ingredients;
+
 
 }
