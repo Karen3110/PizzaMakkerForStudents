@@ -1,23 +1,20 @@
 package com.example.demo3;
 
-import com.example.demo3.repository.ProductRepository;
-import com.example.demo3.service.ProductService;
-import com.example.demo3.service.impl.ProductServiceImpl;
+import com.example.demo3.service.OrderService;
+import com.example.demo3.service.impl.OrderServiceImpl;
 import com.google.gson.Gson;
 
 public class Main {
 
     public static void main(String[] args) {
+        OrderService orderService = new OrderServiceImpl();
 
-        ProductService productService = new ProductServiceImpl();
-        ProductRepository productRepository = new ProductRepository();
-        Gson g = new Gson();
-        System.out.println(g.toJson(productService.readAll()));
-        System.out.println((productRepository.readAll()));
-        System.out.println((productRepository.readAll()).get(0));
-        System.out.println((productRepository.readAll()).get(1));
-        System.out.println((productRepository.readAll()).get(2));
+//        System.out.println(new Gson().toJson(orderService.read(1)));
+        System.out.println(new Gson().toJson(orderService.readAll()));
 
+//
+//        OrderRepository orderRepository = new OrderRepository();
+//        ProductService productService = new ProductServiceImpl();
 
     }
 

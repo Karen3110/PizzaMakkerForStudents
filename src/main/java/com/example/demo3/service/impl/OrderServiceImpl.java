@@ -26,13 +26,15 @@ public class OrderServiceImpl implements OrderService {
         data.setTableId(fromDb.get(0).getTableId());
         data.setInProcess(fromDb.get(0).isInProcess());
         data.setQuantity(fromDb.get(0).getQuantity());
-        data.setAmount(fromDb.get(0).getAmount());
         data.setProducts(new LinkedList<>());
+        int amount = 0;
 
-        fromDb.forEach(item -> {
+        for (Order item : fromDb) {
             Product product = productService.readProduct(item.getProductId());
+            amount += item.getQuantity() * product.getPrice();
             data.getProducts().add(product);
-        });
+        }
+        data.setAmount(amount);
 
         return data;
     }
@@ -50,19 +52,30 @@ public class OrderServiceImpl implements OrderService {
             }
 
             if (i != data.size()) {
-                data.get(i).getProducts().add(productService.readProduct(item.getProductId()));
+                OrderDto orderDto = data.get(i);
+                Product product = productService.readProduct(item.getProductId());
+                orderDto.getProducts().add(product);
+                orderDto.setAmount(orderDto.getAmount() + product.getPrice() * item.getQuantity());
+
+
             } else {
                 OrderDto orderDto = new OrderDto();
                 orderDto.setTableId(item.getTableId());
                 orderDto.setInProcess(item.isInProcess());
-                orderDto.setQuantity(item.getQuantity());
-                orderDto.setAmount(item.getAmount());
                 orderDto.setProducts(new LinkedList<>());
-                orderDto.getProducts().add(productService.readProduct(item.getProductId()));
+
+                Product product = productService.readProduct(item.getProductId());
+                orderDto.getProducts().add(product);
+                orderDto.setAmount(item.getQuantity() * product.getPrice());
+                data.add(orderDto);
+
             }
+
             // checked identifier
             item.setId(-1);
         });
+
+
         return data;
     }
 
