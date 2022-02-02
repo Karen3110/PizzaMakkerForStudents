@@ -14,9 +14,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ProductController extends HttpServlet {
+    private final ProductService productService = new ProductServiceImpl();
+    private final Gson gson = new Gson();
+
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ProductService productService = new ProductServiceImpl();
         String url = req.getParameter("url");
         Gson gson = new Gson();
         List<ProductDto> data = new LinkedList<>();
@@ -42,17 +45,8 @@ public class ProductController extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
-    }
-
-    @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+        int id = Integer.parseInt(req.getParameter("id"));
+        productService.delete(id);
     }
 }

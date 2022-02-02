@@ -14,13 +14,14 @@ import java.util.List;
 public class ProductDto {
     private int id;
 
-    private transient int ingredientId;
 
     private int productTypeId;
 
     private float price;
 
     private String name;
+
+    private transient int ingredientId;
 
     private transient String ingredientName;
 

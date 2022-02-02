@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ProductService {
 
+    Product readProduct(int id);
 
     ProductDto read(int id);
 
@@ -14,8 +15,8 @@ public interface ProductService {
 
     List<ProductDto> readAllByProductType(int productTypeId);
 
-    void create();
 
+    void create(ProductDto productDto);
 
     ProductDto update(int id, ProductDto productDto);
 

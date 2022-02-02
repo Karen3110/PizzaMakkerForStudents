@@ -18,6 +18,21 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
+    public Product readProduct(int id) {
+        Product product = new Product();
+        List<ProductDto> fromDb = productRepository.read(id);
+
+        product.setId(fromDb.get(0).getId());
+        product.setProductTypeId(fromDb.get(0).getProductTypeId());
+        product.setPrice(fromDb.get(0).getPrice());
+        product.setName(fromDb.get(0).getName());
+        product.setImagePath(fromDb.get(0).getImagePath());
+        product.setCurrency(fromDb.get(0).getCurrency());
+
+        return product;
+    }
+
+    @Override
     public ProductDto read(int id) {
         ProductDto productDto = new ProductDto();
         List<ProductDto> fromDb = productRepository.read(id);
@@ -78,7 +93,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void create() {
+    public void create(ProductDto productDto) {
+
+        if (productDto == null) {
+            return;
+        }
+
+        Product product = new Product();
+        productRepository.create(product);
+
+        productDto.getIngredients().forEach(item -> {
+            ProductToIngredient productToIngredient = new ProductToIngredient();
+
+            productToIngredient.setIngredientId(item.getId());
+            List<ProductDto> productDtos = productRepository.readAll();
+            int id = productDtos.get(productDtos.size() - 1).getId();
+            productToIngredient.setProductId(id);
+            productToIngredientRepository.create(productToIngredient);
+        });
 
     }
 
