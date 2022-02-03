@@ -3,6 +3,7 @@ package com.example.demo3.controller;
 import com.example.demo3.model.Table;
 import com.example.demo3.service.TableService;
 import com.example.demo3.service.impl.TableServiceImpl;
+import com.example.demo3.util.AccessControlOriginFilter;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -23,6 +24,8 @@ public class TableController extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
+
         List<Table> data = new LinkedList<>();
         final String url = req.getParameter("url");
 
@@ -55,12 +58,15 @@ public class TableController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
         Table table = mapper(req);
         tableService.create(table);
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
+
         Table table = mapper(req);
         int id = table.getId();
         resp.
@@ -70,6 +76,8 @@ public class TableController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
+
         int id = Integer.parseInt(req.getParameter("id"));
         tableService.delete(id);
 

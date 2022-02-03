@@ -1,5 +1,7 @@
 package com.example.demo3.controller;
 
+import com.example.demo3.util.AccessControlOriginFilter;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +11,8 @@ import java.io.IOException;
 public class IngredientController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp);
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
+
     }
 
     @Override

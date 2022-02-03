@@ -3,6 +3,7 @@ package com.example.demo3.controller;
 import com.example.demo3.model.dto.ProductDto;
 import com.example.demo3.service.ProductService;
 import com.example.demo3.service.impl.ProductServiceImpl;
+import com.example.demo3.util.AccessControlOriginFilter;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -20,6 +21,9 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
+
         String url = req.getParameter("url");
         Gson gson = new Gson();
         List<ProductDto> data = new LinkedList<>();
@@ -46,7 +50,10 @@ public class ProductController extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
+
         int id = Integer.parseInt(req.getParameter("id"));
         productService.delete(id);
     }
+
 }

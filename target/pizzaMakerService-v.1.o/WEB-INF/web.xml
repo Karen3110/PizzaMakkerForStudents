@@ -5,28 +5,36 @@
          version="4.0">
 
 
-    
-   <servlet>
-       <servlet-name>tableController</servlet-name>
-       <servlet-class>com.example.demo3.controller.TableController</servlet-class>
+    <servlet>
+        <servlet-name>tableController</servlet-name>
+        <servlet-class>com.example.demo3.controller.TableController</servlet-class>
 
-   </servlet>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>tableController</servlet-name>
         <url-pattern>/table</url-pattern>
     </servlet-mapping>
-    
-    
-    
+
+
     <servlet>
         <servlet-name>productController</servlet-name>
         <servlet-class>com.example.demo3.controller.ProductController</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>productController</servlet-name>
         <url-pattern>/product</url-pattern>
+    </servlet-mapping>
+
+
+    <servlet>
+        <servlet-name>orderController</servlet-name>
+        <servlet-class>com.example.demo3.controller.OrderController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>orderController</servlet-name>
+        <url-pattern>/admin/order</url-pattern>
     </servlet-mapping>
 
 </web-app>

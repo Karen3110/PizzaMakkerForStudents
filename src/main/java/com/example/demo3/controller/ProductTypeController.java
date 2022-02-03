@@ -3,6 +3,7 @@ package com.example.demo3.controller;
 import com.example.demo3.model.ProductType;
 import com.example.demo3.service.ProductTypeService;
 import com.example.demo3.service.impl.ProductTypeServiceImpl;
+import com.example.demo3.util.AccessControlOriginFilter;
 import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
@@ -19,6 +20,7 @@ public class ProductTypeController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        AccessControlOriginFilter.setAccessControlHeaders(resp);
 
         List<ProductType> data = new LinkedList<>();
         final String url = req.getParameter("url");
